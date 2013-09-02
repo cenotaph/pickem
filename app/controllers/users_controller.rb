@@ -19,9 +19,9 @@ class UsersController < InheritedResources::Base
     update! { '/' }
   end
 
-  protected 
+
   
   def permitted_params
-    params.permit(:user => [:avatar, :slug])
+    params.permit(:user => [:avatar, :slug, :yahoo_name])
   end
 end

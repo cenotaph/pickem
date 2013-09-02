@@ -13,7 +13,6 @@ class CurrenciesController < InheritedResources::Base
     destroy! { currencies_path } 
   end
   
-  protected
 
   def permitted_params
     params.permit(:currency => [:name, :country, :iso4217, :wikipedia_link, :symbol])

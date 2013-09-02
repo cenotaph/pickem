@@ -12,7 +12,9 @@ a:hover {
      color: $hover-color;
 }
 
-
+body {
+  margin: 0px;
+}
 header {
   .user_info {
     img {
@@ -173,7 +175,8 @@ ol {
   }
 }
 
-table.weeks_table {
+
+table.weeks_table, table#leaderboard  {
   border-collapse: collapse;
   th {
     padding: 5px;
@@ -181,6 +184,13 @@ table.weeks_table {
   td {
     padding: 5px;
     border: 1px dotted $light-blue;
+    &.week_name {
+      font-style: italic;
+    }
+    .yahoo {
+      font-size: 11px;
+      font-style: italic;
+    }
   }
 }
 footer {

@@ -5,3 +5,6 @@
     - else
       = image_tag 'missing_person.png'
     .name= user.name
+    .yahoo_name= user.yahoo_name
+    - if current_user.is_admin?
+      = link_to '[edit]', edit_user_path(user)

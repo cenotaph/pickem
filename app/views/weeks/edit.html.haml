@@ -1,0 +1,7 @@
+%h3 Name week
+
+%p You have earned the right to name this week's competition.
+
+= semantic_form_for(@week) do |f|
+  = f.input :name
+  = f.submit "save"

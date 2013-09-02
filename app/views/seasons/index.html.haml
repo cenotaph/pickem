@@ -17,7 +17,8 @@
       - @current_season.weeks.sort_by(&:week_number)[1..17].each do |week|
         %tr
           %td= week.week_number
-          %td= week.name
+          %td.week_name
+            = link_to_unless week.naming_rights.nil?, week.tentative_name, "/#{@current_season.year}/#{week.week_number}"
           %td= week.currency.try(:name)
           %td
           %td

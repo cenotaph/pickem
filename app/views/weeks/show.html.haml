@@ -16,7 +16,20 @@
   .sixteen.columns
     %h5 edit this if you want:
     = render :partial => 'new_comment', :locals => {:week => @week, :comment => previewing}
-    
+   
+%table#leaderboard
+  %thead
+    %th User
+    %th Score
+  %tbody
+    - User.all.each do |user|
+      %tr
+        %td
+          = user.name
+          .yahoo= user.yahoo_name
+        %td
+          = @week.score?(user)
+        
     
 #comments
   %h1

@@ -1,3 +1,5 @@
 = semantic_form_for(@user, :html => {:multipart => true} ) do |f|
   = f.input :avatar
+  - if current_user.is_admin?
+    = f.input :yahoo_name
   = f.submit

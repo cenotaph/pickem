@@ -8,6 +8,7 @@ GIT
 GIT
   remote: git://github.com/josevalim/inherited_resources.git
   revision: fdc9de6ca213ab8f3b97f37e5d071363198e018a
+  branch: master
   specs:
     inherited_resources (1.4.1)
       has_scope (~> 0.6.0.rc)
