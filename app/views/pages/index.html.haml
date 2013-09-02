@@ -1,0 +1,24 @@
+%h3 static pages
+
+%table
+  %tr
+    %th Name
+    %th
+
+  - @pages.each do |page|
+    %tr
+      %td= page.name
+      %td
+        = link_to 'Show', page
+        - if user_signed_in?
+          - if current_user.is_admin?
+            |
+            = link_to 'Edit', edit_page_path(page)
+            |
+            = link_to 'Destroy', page, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+- if user_signed_in?
+  - if current_user.is_admin?
+    = link_to 'New Page', new_page_path

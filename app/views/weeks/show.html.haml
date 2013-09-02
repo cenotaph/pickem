@@ -1,0 +1,28 @@
+
+%h1
+  Week
+  = @week.week_number.to_s + ": "
+  = @week.week_number == 0 ? 'preseason abuse' : @week.name
+  
+- unless @week.comments.where(:user_id => current_user.id).where(:status => 'preview').empty?
+  - previewing = @week.comments.find_by(:user_id => current_user.id, :status => 'preview')
+  #preview.sixteen.columns
+    %p You are previewing this comment.
+    .comment_preview.sixteen.columns= render :partial => 'comment', :locals => {:c => previewing}
+    
+    .buttons.sixteen.columns
+      = button_to 'cancel'
+      = button_to 'publish', publish_comment_path(previewing), :method => :get
+  .sixteen.columns
+    %h5 edit this if you want:
+    = render :partial => 'new_comment', :locals => {:week => @week, :comment => previewing}
+    
+    
+#comments
+  %h1
+    %u Discussion:
+
+  - @week.comments.published.order(:created_at).each do |c|
+    .comment.sixteen.columns= render :partial => 'comment', :locals => {:c => c}
+
+= render :partial => 'new_comment', :locals => {:week => @week, :comment => Comment.new}

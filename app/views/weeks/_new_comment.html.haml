@@ -1,0 +1,15 @@
+.sixteen.columns.comment_form
+  .two.columns.alpha
+    = image_tag current_user.avatar.url(:thumb)
+  .fourteen.columns.omega
+    = semantic_nested_form_for([week, comment], :html => {:multipart => true}) do |f|
+      = f.input :user_id, :input_html => {:value => current_user.id}, :as => :hidden
+      = f.input :content, :label => "Your comment:", :hint => "MarkDown syntax is OK"
+      = f.fields_for :images do |ff|
+        = ff.input :filename
+        - if ff.object.filename?
+          = image_tag ff.object.filename.url(:medium)
+        = ff.link_to_remove 'remove this image'
+      = f.link_to_add raw("<i class='icon-picture'></i> add an image to this comment"), :images
+      
+      = f.submit

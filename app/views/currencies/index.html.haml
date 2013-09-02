@@ -1,0 +1,15 @@
+%h3 Currencies
+
+- @currencies.each do |c|
+  .currency.fourteen.columns
+    .eight.columns= c.name
+    .three.columns
+      - if user_signed_in?
+        - if current_user.is_admin?
+          = link_to 'edit', edit_currency_path(c)
+          |
+          = link_to 'delete', c, :method => :delete, :data => {:confirm => "are you sure?"}
+- if user_signed_in?
+  - if current_user.is_admin?      
+    %p= link_to 'add new currency', new_currency_path
+    

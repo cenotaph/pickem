@@ -1,0 +1,46 @@
+!!!
+%html
+  %head
+    %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}
+      %title= content_for?(:title) ? yield(:title) : "Pick'em of Death"
+      %meta{:content => content_for?(:description) ? yield(:description) : "Moks", :name => "description"}
+        = stylesheet_link_tag "application", :media => "all"
+        = javascript_include_tag "application"
+        %link{:href => "http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,500italic&subset=latin,latin-ext", :rel => "stylesheet", :type => "text/css"}/
+
+        = csrf_meta_tags
+        = yield(:head)
+  %body{:class => "#{controller_name} #{action_name}"}
+    %header
+      .container
+        .sixteen.columns
+          .user_info.four.columns.alpha
+            - if user_signed_in?
+              - if current_user.avatar?
+                = image_tag current_user.avatar.url(:thumb), :height => 60
+              - else
+                = image_tag 'missing_person.png', :width => 50
+              %p
+                Signed in as
+                = current_user.name
+              %p
+                = link_to 'edit profile', edit_user_path(current_user)
+            
+            - else
+              = link_to "Sign in with Google account", user_omniauth_authorize_path(:google_oauth2)
+          .eight.columns
+            %nav
+              %ul
+                - unless controller.controller_name == 'seasons'
+                  %li= link_to 'Frontpage', '/'
+                %li= link_to 'Currencies', currencies_path
+                - if user_signed_in?
+                  %li= link_to 'Users', users_path
+                  %li= link_to 'Static pages', pages_path
+      .yield
+        .container
+          .sixteen.columns= yield
+      %footer
+        .container
+          .sixteen.columns
+            Pick em of Death. Go away.

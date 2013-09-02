@@ -1,0 +1,19 @@
+.two.columns.alpha
+  = image_tag c.user.avatar.url(:thumb)
+  .posted_by
+    posted by
+    = c.user.name
+  .post_date
+    = c.updated_at.strftime('%d %B %Y')
+    = time_ago_in_words(c.updated_at)
+    ago
+  
+.fourteen.columns.omega
+  - unless c.images.empty?
+    - c.images.each do |image|
+      .inline_image
+        - if image.width > 940
+          = image_tag image.filename.url(:full)
+        - else
+          = image_tag image.filename
+  = raw Redcarpet::Markdown.new(Redcarpet::Render::HTML).render(c.content)

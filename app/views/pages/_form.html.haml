@@ -1,0 +1,12 @@
+= semantic_form_for @page do |f|
+  %p Markdown is OK!
+  
+  - if @page.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@page.errors.count, "error")} prohibited this page from being saved:"
+      %ul
+        - @page.errors.full_messages.each do |msg|
+          %li= msg
+  = f.input :name
+  = f.input :body
+  = f.submit 'Save'

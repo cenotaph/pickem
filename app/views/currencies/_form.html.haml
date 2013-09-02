@@ -1,0 +1,7 @@
+= semantic_form_for(@currency) do |f|
+  = f.input :name
+  = f.input :iso4217, :label => 'ISO 4217 code'
+  = f.input :country, :as => :country, :include_blank => true
+  = f.input :symbol
+  = f.input :wikipedia_link
+  = f.submit

@@ -1,0 +1,7 @@
+- @users.each do |user|
+  .user.three.columns
+    - if user.avatar?
+      = image_tag user.avatar.url(:thumb)
+    - else
+      = image_tag 'missing_person.png'
+    .name= user.name
