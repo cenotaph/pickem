@@ -35,7 +35,7 @@ CarrierWave.configure do |config|
 end
 
 APPROVED_USERS = ENV['APPROVED_USERS'].split(/\,\s*/).to_a
-APPROVED_USERS = ''
+APPROVED_USERS = ENV['APPROVED_ADMINS'].split(/\,\s*/).to_a
 # put users here who are approved to log in 
 # APPROVED_ADMINS = [] # put approved admin email addresses here
 OER_API_KEY = ENV['OPEN_EXCHANGE_KEY']
