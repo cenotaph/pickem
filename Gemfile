@@ -56,6 +56,7 @@ gem 'nested_form'
 gem 'oauth-client'
 gem 'omniauth-google-oauth2'
 gem 'rails_12factor', group: :production
+gem 'randumb'
 gem 'redcarpet'
 gem 'skeleton-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
