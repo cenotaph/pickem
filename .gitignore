@@ -16,3 +16,4 @@
 /tmp
 config/initializers/pickem.rb
 /test/*
+/public/uploads/tmp/*
