@@ -144,9 +144,6 @@ GEM
     minitest (4.7.5)
     money (5.1.1)
       i18n (~> 0.6.0)
-    money-open-exchange-rates (0.1.5)
-      json (>= 1.7)
-      money (>= 3.7.1)
     multi_json (1.7.9)
     multipart-post (1.2.0)
     nested_form (0.3.2)
@@ -174,6 +171,8 @@ GEM
     omniauth-oauth2 (1.1.1)
       oauth2 (~> 0.8.0)
       omniauth (~> 1.0)
+    open_exchange_rates (0.4.0)
+      yajl-ruby
     orm_adapter (0.4.0)
     pg (0.16.0)
     polyglot (0.3.3)
@@ -256,6 +255,7 @@ GEM
       multi_json (~> 1.0, >= 1.0.2)
     warden (1.2.3)
       rack (>= 1.0)
+    yajl-ruby (1.1.0)
 
 PLATFORMS
   ruby
@@ -284,11 +284,11 @@ DEPENDENCIES
   meta_request
   mini_magick
   money
-  money-open-exchange-rates
   nested_form
   nifty-generators
   oauth-client
   omniauth-google-oauth2
+  open_exchange_rates
   pg
   quiet_assets
   rails (= 4.0.0)

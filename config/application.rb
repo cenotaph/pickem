@@ -34,14 +34,16 @@ CarrierWave.configure do |config|
   config.fog_attributes = {'Cache-Control'=>'max-age=315576000'}  # optional, defaults to {}
 end
 
-APPROVED_USERS = ENV['APPROVED_USERS'].split(/\,\s*/).to_a
-APPROVED_ADMINS = ENV['APPROVED_ADMINS'].split(/\,\s*/).to_a
-# put users here who are approved to log in 
-# APPROVED_ADMINS = [] # put approved admin email addresses here
-OER_API_KEY = ENV['OPEN_EXCHANGE_KEY']
+
 
 # Omniauth keys here
 if Rails.env.production?
+  APPROVED_USERS = ENV['APPROVED_USERS'].split(/\,\s*/).to_a
+  APPROVED_ADMINS = ENV['APPROVED_ADMINS'].split(/\,\s*/).to_a
+  # put users here who are approved to log in 
+  # APPROVED_ADMINS = [] # put approved admin email addresses here
+  OER_API_KEY = ENV['OPEN_EXCHANGE_KEY']
+  
   Rails.application.config.middleware.use OmniAuth::Builder do
     provider :google_oauth2, ENV['GOOGLE_KEY'], ENV['GOOGLE_SECRET'], {:client_options => {:ssl => {:ca_file => '/usr/lib/ssl/certs/ca-certificates.crt'}}}
   end

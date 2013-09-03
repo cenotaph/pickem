@@ -19,8 +19,11 @@
           %td= week.week_number
           %td.week_name
             = link_to_unless week.naming_rights.nil?, week.tentative_name, "/#{@current_season.year}/#{week.week_number}"
+            - if user_signed_in? && week.name.blank?
+              - if current_user == week.naming_rights
+                %span.small= link_to 'name it!', edit_week_path(@week)
           %td= week.currency.try(:name)
-          %td
+          %td= week.winner_name
           %td
       
 .three.columns.omega

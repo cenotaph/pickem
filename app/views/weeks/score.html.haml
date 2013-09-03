@@ -1,0 +1,6 @@
+%h3 Entering weekly scores:
+
+= semantic_form_for(@week) do |f|
+  = f.fields_for :week_users do |ff|
+    = ff.input :score, :label => "Score for " + ff.object.user.try(:yahoo_name).to_s, :hint => ff.object.user.name
+  = f.submit "Save", :data => {:confirm => "Are you sure these are correct? You won't be able to change them. Click OK to submit and draw this week's currency."}

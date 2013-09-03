@@ -16,26 +16,81 @@
   .sixteen.columns
     %h5 edit this if you want:
     = render :partial => 'new_comment', :locals => {:week => @week, :comment => previewing}
-   
-%table#leaderboard
-  %thead
-    %th User
-    %th Score
-  %tbody
-    - User.all.each do |user|
-      %tr
-        %td
-          = user.name
-          .yahoo= user.yahoo_name
-        %td
-          = @week.score?(user)
+
+- unless @week.week_number == 0 
+  - if @week.open?
+    - players = User.all
+  - else
+    - players = @week.week_users.sort_by(&:score).reverse.map(&:user)
+  .eight.columns.alpha
+    %table#leaderboard
+      %thead
+        %th User
+        %th Pick'em pts
+        %th Money owed
+        %th Own value
+        %th Final score
+      %tbody
+        - players.each do |user|
+          %tr{:class => (user == @week.winner ? 'winner' : false)}
+            %td
+              = user.name
+              .yahoo= user.yahoo_name
+            %td= @week.score?(user)
+            - if @week.open?
+              %td{:colspan => 3}
+                %em No scores added yet
+            - else
+              %td= @week.money_owed?(user) == 0 ? "winner!" : number_to_currency(@week.money_owed?(user) / @week.exchange_rate, :unit => @week.currency.symbol)
+              -# %td= number_to_currency(@week.pot_earnings?(user), :unit => @week.currency.symbol)
+              %td{:class => (@week.money_adjusted?(user) < 0 ? 'red' : false)}= number_to_currency(@week.money_adjusted?(user), :unit => @week.currency.symbol)
+              %td{:class => (@week.money_adjusted?(user) < 0 ? 'red' : false)}= number_to_currency(@week.money_adjusted?(user) * @week.exchange_rate, :unit => @week.season.basecurrency.symbol)
+      %tfoot
+        %tr
+          %td Total karma:
+          %td= @week.week_users.map(&:score).sum
+        - if current_user.is_admin? && @week.open?
+          %tr
+            %td{:colspan => 2}
+              = link_to 'enter scores', score_week_path(@week)
+  .seven.columns.omega
+    - unless @week.currency.blank?
+      %h3 This week's currency was ....
+      .currency_title= @week.currency.name
+      .currency_country= "The currency used in " + @week.currency.try(:country)
+      .currency_wikipedia_link= link_to 'learn about the ' + @week.currency.name, @week.currency.wikipedia_link, :target => :_blank
+      
+      .exchange_rate
+        %p= "On #{@week.closing_date.strftime('%d %B %Y')}, the exchange rate between the #{@week.currency.name} and the #{@week.season.basecurrency.name} was ...."
+        .rate_window
+          .three.columns.alpha.right
+            .result
+              1.00
+              %span.unit= @week.currency.iso4217.upcase
+            .meta
+              .name= @week.currency.name
+              .value
+                = "1 #{@week.currency.iso4217.upcase} = #{@week.exchange_rate} #{@week.season.basecurrency.iso4217.upcase}"
+          .column.equal= " = "
+          .three.columns.omega
+            .result
+              = @week.exchange_rate.to_s
+              %span.unit= @week.season.basecurrency.iso4217.upcase
+            .meta
+              .name= @week.season.basecurrency.name
+              .value
+                = "1 #{@week.season.basecurrency.iso4217.upcase} = #{"%.5f" % (1 / @week.exchange_rate)} #{@week.currency.iso4217.upcase}"
+
         
-    
-#comments
+        
+#comments.sixteen.columns
   %h1
     %u Discussion:
 
   - @week.comments.published.order(:created_at).each do |c|
     .comment.sixteen.columns= render :partial => 'comment', :locals => {:c => c}
-
-= render :partial => 'new_comment', :locals => {:week => @week, :comment => Comment.new}
+- if @week.open?
+  = render :partial => 'new_comment', :locals => {:week => @week, :comment => Comment.new}
+- else
+  .sixteen.columns
+    %h5 Discussion is closed for this week. Take it to next week.

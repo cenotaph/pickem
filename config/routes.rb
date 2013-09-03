@@ -8,6 +8,9 @@ Pickem::Application.routes.draw do
   resources :users
   resources :weeks do
     resources :comments
+    member do
+      get :score
+    end
   end
   resources :comments do
     member do

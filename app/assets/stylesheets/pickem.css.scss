@@ -16,13 +16,25 @@ body {
   margin: 0px;
 }
 header {
+  padding-top: 25px;
+  .current_score {
+    border: 2px solid $link-color;
+    padding: 4px;
+    font: 12px/14px Lucida Grande, sans-serif;
+    text-transform: uppercase;
+    margin: 5px 0px 0px 5px;
+    background-color: #F8F8F8;
+  }
+  .image, .meta {
+    float: left;
+  }
   .user_info {
     img {
       float: left;
       margin-right: 5px;
     }
     p {
-      margin: 0px;
+      margin: 0px 0px 0px 5px;
       a {
         font: $tiny-link;
         text-transform: uppercase;
@@ -44,6 +56,45 @@ header {
   }
 }
 
+.formtastic.week {
+  li {
+    clear: left;
+    margin-bottom: 40px;
+  }
+}
+
+.user {
+  clear: both;
+  float: left;
+  margin-bottom: 25px;
+  .image {
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+  }
+  .rank {
+    font-size: 48px;
+    text-align: right;
+  }
+  .score {
+    font-size: 24px;
+    &.red {
+      color: red;
+    }
+  }
+  .stats {
+    color: #666;
+    font-size: 13px;
+  }
+}
+
+span.small {
+  a {
+    font-size: 9px;
+    text-transform: uppercase;
+  }
+}
 form {
   li {
     list-style-type: none;
@@ -175,7 +226,42 @@ ol {
   }
 }
 
+.currency_title {
+  font-size: 24px;
+}
+.currency_country {
+  font-size: 18px;
+}
+.currency_wikipedia_link {
+  font-size: 10px;
+}
 
+.exchange_rate {
+  .rate_window {
+    .result {
+      font-size: 1.6em;
+      span.unit {
+        color: #05a8e2;
+      }
+    }
+    .meta {
+      .name {
+        font-size: 12px;
+      }
+      .value {
+        font-size: .9em;
+        color: #999;
+      }
+    }
+    .equal {
+      font-size: 1.8em;
+      text-align: center;
+    }
+    .right {
+      text-align: right;
+    }
+  }
+}
 table.weeks_table, table#leaderboard  {
   border-collapse: collapse;
   th {
@@ -184,12 +270,29 @@ table.weeks_table, table#leaderboard  {
   td {
     padding: 5px;
     border: 1px dotted $light-blue;
+    &.red {
+      color: red;
+    }
     &.week_name {
       font-style: italic;
     }
     .yahoo {
       font-size: 11px;
       font-style: italic;
+    }
+  }
+  tr.winner {
+    border: 2px solid $link-color;
+    td {
+      font-weight: bold;
+    }
+  }
+  tfoot {
+    tr {
+      background-color: #f0f0f0;
+      td {
+        font-weight: bold;
+      }
     }
   }
 }

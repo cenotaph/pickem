@@ -1,10 +1,20 @@
-- @users.each do |user|
-  .user.three.columns
-    - if user.avatar?
-      = image_tag user.avatar.url(:thumb)
-    - else
-      = image_tag 'missing_person.png'
-    .name= user.name
-    .yahoo_name= user.yahoo_name
-    - if current_user.is_admin?
-      = link_to '[edit]', edit_user_path(user)
+.sixteen.columns
+  %h3 The score so far....
+  - @users.sort_by(&:current_score).reverse.each_with_index do |user, rank|
+    .user
+      .rank.one.column.alpha
+        = (rank + 1 ).to_s + "."
+      .image.two.columns
+        - if user.avatar?
+          = image_tag user.avatar.url(:thumb)
+        - else
+          = image_tag 'missing_person.png'
+      .meta.ten.columns
+        .name= user.name
+        .yahoo_name= user.yahoo_name
+        - if current_user.is_admin?
+          = link_to '[edit]', edit_user_path(user)
+        .score{:class => user.current_score < 0 ? 'red' : false}
+          = number_to_currency user.current_score, :unit => @current_season.basecurrency.symbol
+        .stats
+          = pluralize(Comment.where(:user_id => user.id).size, 'message') + " posted"

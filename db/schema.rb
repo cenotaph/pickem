@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130902181551) do
+ActiveRecord::Schema.define(version: 20130903153035) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -102,6 +102,7 @@ ActiveRecord::Schema.define(version: 20130902181551) do
   end
 
   add_index "week_users", ["user_id"], name: "index_week_users_on_user_id", using: :btree
+  add_index "week_users", ["week_id", "user_id"], name: "index_week_users_on_week_id_and_user_id", using: :btree
   add_index "week_users", ["week_id"], name: "index_week_users_on_week_id", using: :btree
 
   create_table "weeks", force: true do |t|
@@ -112,6 +113,7 @@ ActiveRecord::Schema.define(version: 20130902181551) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "currency_id"
+    t.float    "exchange_rate"
   end
 
   add_index "weeks", ["currency_id"], name: "index_weeks_on_currency_id", using: :btree

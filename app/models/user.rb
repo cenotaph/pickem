@@ -4,9 +4,19 @@ class User < ActiveRecord::Base
   # :lockable, :timeoutable and :omniauthable
   devise :omniauthable, :omniauth_providers => [:google_oauth2]
   mount_uploader :avatar, AvatarUploader
+  has_many :weeks, :through => :week_users
+  has_many :week_users
   
   extend FriendlyId
   friendly_id :name, use: :slugged 
+  
+  def current_score
+    week_users.map(&:money_adjusted_converted).sum
+  end
+  
+  def display_name
+    yahoo_name || name
+  end
   
   def is_admin?
     is_admin
