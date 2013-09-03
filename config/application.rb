@@ -34,7 +34,9 @@ CarrierWave.configure do |config|
   config.fog_attributes = {'Cache-Control'=>'max-age=315576000'}  # optional, defaults to {}
 end
 
-APPROVED_USERS = ENV['APPROVED_USERS']# put users here who are approved to log in 
+APPROVED_USERS = ENV['APPROVED_USERS'].split(/\,\s*/).to_a
+
+# put users here who are approved to log in 
 # APPROVED_ADMINS = [] # put approved admin email addresses here
 OER_API_KEY = ENV['OPEN_EXCHANGE_KEY']
 
