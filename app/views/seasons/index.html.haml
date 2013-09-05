@@ -8,9 +8,9 @@
   .preseason
     %h3= link_to 'pre-season chatter', '/2013/0'
     - preseason =  Week.find_by(:season => @current_season, :week_number => 0)
-    - unless preseason.comments.empty?
+    - unless preseason.comments.published.empty?
       %span.small
-        = pluralize(preseason.comments.size, 'comment') + '; last by '
+        = pluralize(preseason.comments.published.size, 'comment') + '; last by '
         = preseason.last_comment.user.name
         = " (#{time_ago_in_words(preseason.last_comment.updated_at)} ago)"
     

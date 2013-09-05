@@ -1,11 +1,27 @@
 class CommentsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :load_week , :except => [:update, :publish, :cancel]
+  before_filter :load_week , :except => [:update, :publish, :destroy, :cancel]
   
   def load_week
     @week = Week.find(params[:week_id])
   end
   
+  def destroy
+    @comment = Comment.find(params[:id])
+    week = @comment.week
+    if @comment.user == current_user || current_user.is_admin?
+      if @comment.destroy!
+        redirect_to "/#{week.season.year}/#{week.week_number}" 
+      else
+        flash[:error] = 'Error deleting comment'
+      end
+    else
+      flash[:error] = 'This is not yours'
+    end
+  end
+        
+  
+
   def create
     @comment = Comment.new(params.require(:comment).permit(:user_id, :status, :week_id, :content, images_attributes: [:filename]))
     @comment.week = @week
