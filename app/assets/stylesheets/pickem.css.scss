@@ -62,7 +62,20 @@ header {
     margin-bottom: 40px;
   }
 }
-
+.preseason {
+  h3 {
+    font-size: 16px;
+    margin: 0px;
+    a {
+      color: $link-color;
+    }
+  }
+  span.small {
+    font-size: 10px;
+    color: #666;
+  }
+  margin-bottom: 15px;
+}
 .user {
   clear: both;
   float: left;
@@ -275,6 +288,18 @@ table.weeks_table, table#leaderboard  {
     }
     &.week_name {
       font-style: italic;
+    }
+    &.comments {
+      font-size: 11px;
+      color: #666;
+      .number {
+        font-size: 16px;
+        float: left;
+        margin-right: 10px;
+      }
+      .when {
+        font-size: 9px;
+      }
     }
     .yahoo {
       font-size: 11px;

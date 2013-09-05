@@ -1,34 +1,52 @@
-%h1
-  NFL
-  = @current_season.year
-  Season:
-  = @current_season.name
+- if user_signed_in?
+  %h1
+    NFL
+    = @current_season.year
+    Season:
+    = @current_season.name
 
-%h3= link_to 'pre-season chatter', '/2013/0'
-.thirteen.columns.alpha
-  %table.weeks_table
-    %thead
-      %th Week #
-      %th Week slogan
-      %th Currency
-      %th Winner
-      %th Winnings
-    %tbody
-      - @current_season.weeks.sort_by(&:week_number)[1..17].each do |week|
-        %tr
-          %td= week.week_number
-          %td.week_name
-            = link_to_unless week.naming_rights.nil?, week.tentative_name, "/#{@current_season.year}/#{week.week_number}"
-            - if user_signed_in? && week.name.blank?
-              - if current_user == week.naming_rights
-                %span.small= link_to 'name it!', edit_week_path(@week)
-          %td= week.currency.try(:name)
-          %td= week.winner_name
-          %td
+  .preseason
+    %h3= link_to 'pre-season chatter', '/2013/0'
+    - preseason =  Week.find_by(:season => @current_season, :week_number => 0)
+    - unless preseason.comments.empty?
+      %span.small
+        = pluralize(preseason.comments.size, 'comment') + '; last by '
+        = preseason.last_comment.user.name
+        = " (#{time_ago_in_words(preseason.last_comment.updated_at)} ago)"
+    
+  .thirteen.columns.alpha
+    %table.weeks_table
+      %thead
+        %th Week #
+        %th Week slogan
+        %th Currency
+        %th Winner
+        %th.comments Comments
+      %tbody
+        - @current_season.weeks.sort_by(&:week_number)[1..17].each do |week|
+          %tr
+            %td= week.week_number
+            %td.week_name
+              = link_to_unless week.naming_rights.nil?, week.tentative_name, "/#{@current_season.year}/#{week.week_number}"
+              - if user_signed_in? && week.name.blank?
+                - if current_user == week.naming_rights
+                  %span.small= link_to 'name it!', edit_week_path(@week)
+            %td= week.currency.try(:name)
+            %td= week.winner_name
+            %td.comments
+              - unless week.last_comment.nil?
+                .number= week.comments.published.size.to_s
+                latest by
+                = week.last_comment.user.name
+                .when
+                  = time_ago_in_words week.last_comment.updated_at
+                  ago
       
-.three.columns.omega
-  - p =  Page.find_by(:slug => 'rules')
-  - unless p.nil?
-    .sidebar_box
-      %h3= p.name
-      .body= raw Redcarpet::Markdown.new(Redcarpet::Render::HTML).render(p.body)
+  .three.columns.omega
+    - p =  Page.find_by(:slug => 'rules')
+    - unless p.nil?
+      .sidebar_box
+        %h3= p.name
+        .body= raw Redcarpet::Markdown.new(Redcarpet::Render::HTML).render(p.body)
+- else
+  sign in, or go somewhere else..

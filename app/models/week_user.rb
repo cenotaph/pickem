@@ -17,10 +17,12 @@ class WeekUser < ActiveRecord::Base
   end
   
   def pot_earnings
+    return 0 if score.nil?
     (score.to_f / WeekUser.where(:week => week).map(&:score).sum.to_f) * week.total_pot
   end
   
   def points
+    return 0 if score.nil?
     # find winner within own structure
     all_week_scores = WeekUser.where(:week => week).sort_by(&:score)
     winner = all_week_scores.last
