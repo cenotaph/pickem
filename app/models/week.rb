@@ -69,9 +69,12 @@ class Week < ActiveRecord::Base
   end
   
   def total_pot
-    week_users.map(&:money_owed).sum 
+    week_users.map{|x| x.money_owed.to_f }.sum 
   end
   
+  def total_score
+    week_users.map{|x| x.score.to_f}.sum
+  end
   def winner
     week_users.empty? ? nil : week_users.sort_by(&:score).last.user
   end
@@ -80,5 +83,5 @@ class Week < ActiveRecord::Base
     winner.nil? ? '' : winner.display_name
   end
   
-      
+     
 end

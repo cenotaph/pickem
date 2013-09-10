@@ -5,7 +5,7 @@ class WeekUser < ActiveRecord::Base
   
   
   def money_adjusted_converted
-    money_adjusted * week.exchange_rate
+    money_adjusted * week.exchange_rate.to_f
   end
   
   def money_adjusted
@@ -13,7 +13,7 @@ class WeekUser < ActiveRecord::Base
   end
   
   def money_owed
-    points  * week.exchange_rate * -1
+    points  * week.exchange_rate.to_f * -1
   end
   
   def pot_earnings

@@ -48,7 +48,7 @@
       %tfoot
         %tr
           %td Total karma:
-          %td= @week.week_users.map(&:score).sum
+          %td= @week.total_score
         - if current_user.is_admin? && @week.open?
           %tr
             %td{:colspan => 2}
