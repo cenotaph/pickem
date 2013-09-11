@@ -38,8 +38,9 @@
                   %li= link_to 'Frontpage', '/'
                 %li= link_to 'Currencies', currencies_path
                 - if user_signed_in?
-                  %li= link_to 'Users', users_path
-                  %li= link_to 'Static pages', pages_path
+                  %li= link_to 'Scoreboard', users_path
+                  - if current_user.is_admin?
+                    %li= link_to 'Static pages', pages_path
                   %li= link_to 'Yahoo Pick\'em', 'http://football.fantasysports.yahoo.com/pickem/45368'
       .yield
         .container
