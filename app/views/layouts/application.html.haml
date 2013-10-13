@@ -17,9 +17,9 @@
           .user_info.four.columns.alpha
             - if user_signed_in?
               - if current_user.avatar?
-                .image.one.column.alpha= image_tag current_user.avatar.url(:thumb), :height => 60
+                .image.one.column.alpha= link_to image_tag(current_user.avatar.url(:thumb), :height => 60), current_user
               - else
-                .image.one.column.alpha= image_tag 'missing_person.png', :width => 50
+                .image.one.column.alpha= link_to image_tag('missing_person.png', :width => 50), current_user
               .meta.three.columns.omega
                 %p
                   Signed in as

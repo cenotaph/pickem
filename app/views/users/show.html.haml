@@ -23,7 +23,7 @@
                 = "(#{ActiveSupport::Inflector::ordinalize(week.rank?(@user))})"
             %td= week.money_owed?(@user) == 0 ? "winner!" : number_to_currency(week.money_owed?(@user) / week.exchange_rate, :unit => week.currency.symbol)
             %td{:class => (week.money_adjusted?(@user) < 0 ? 'red' : false)}= number_to_currency(week.final_score?(@user), :unit => week.season.basecurrency.symbol)
-            %td= week.luck?(@user).to_f
+            %td{:class => (week.luck?(@user).to_f >= 0 ? false : :red)}= week.luck?(@user).to_f
     %tfoot
       %tr
         %td Totals:
