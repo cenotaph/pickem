@@ -72,7 +72,7 @@ class WeekUser < ActiveRecord::Base
   end
   
   def rank
-    all_week_scores = WeekUser.where(:week => week).sort_by{|x| x.score.to_i }
-    all_week_scores.index(self) + 1
+    all_week_scores = WeekUser.where(:week => week).sort_by{|x| x.score.to_i }.reverse.index(self) + 1
+
   end  
 end
