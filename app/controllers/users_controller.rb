@@ -1,6 +1,6 @@
 class UsersController < InheritedResources::Base
   before_filter :authenticate_user!
-  actions :edit, :update, :index
+  actions :edit, :update, :index, :show
   
   def edit
     @user = User.friendly.find(params[:id])
@@ -19,6 +19,9 @@ class UsersController < InheritedResources::Base
     update! { '/' }
   end
 
+  def show
+    @user = User.friendly.find(params[:id])
+  end
 
   
   def permitted_params

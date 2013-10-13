@@ -99,6 +99,17 @@ header {
   .stats {
     color: #666;
     font-size: 13px;
+    .luck {
+      font-size: 14px;
+      span.number {
+        &.red {
+          color: red;
+        }
+      }
+      .disclaimer {
+        font-size: 12px;
+      }
+    }
   }
 }
 
@@ -195,6 +206,12 @@ ol {
   .comment {
     padding: 10px 0px 15px 0px;
     border-bottom: 1px dotted $hover-color;
+    font-size: 14px;
+    p {
+      font-size: 16px;
+      line-height: 20px;
+      width: 75%;
+    }
   }
 }
 #preview {
@@ -281,8 +298,14 @@ table.weeks_table, table#leaderboard  {
     padding: 5px;
   }
   td {
-    padding: 5px;
+    padding: 3px;
     border: 1px dotted $light-blue;
+    font-size: 14px;
+    .small {
+      
+      font-size: 10px;
+      color: #666;
+    }
     &.red {
       color: red;
     }
@@ -290,10 +313,10 @@ table.weeks_table, table#leaderboard  {
       font-style: italic;
     }
     &.comments {
-      font-size: 11px;
+      font-size: 10px;
       color: #666;
       .number {
-        font-size: 16px;
+        font-size: 13px;
         float: left;
         margin-right: 10px;
       }
@@ -302,7 +325,7 @@ table.weeks_table, table#leaderboard  {
       }
     }
     .yahoo {
-      font-size: 11px;
+      font-size: 10px;
       font-style: italic;
     }
   }
@@ -317,6 +340,7 @@ table.weeks_table, table#leaderboard  {
       background-color: #f0f0f0;
       td {
         font-weight: bold;
+
       }
     }
   }

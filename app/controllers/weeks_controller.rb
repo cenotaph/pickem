@@ -17,7 +17,6 @@ class WeeksController < InheritedResources::Base
     end
     @week = Week.find(params[:id])
     User.all.each {|x| @week.week_users << WeekUser.new(:user => x) if @week.week_users.where(:user => x).empty? }
-
   end
   
   def show

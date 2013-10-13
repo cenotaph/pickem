@@ -22,6 +22,7 @@
     - players = User.all
   - else
     - players = @week.week_users.sort_by(&:score).reverse.map(&:user)
+    - total_luck = 0
   .eight.columns.alpha
     %table#leaderboard
       %thead
@@ -30,6 +31,7 @@
         %th Money owed
         %th Own value
         %th Final score
+        %th Luck
       %tbody
         - players.each do |user|
           %tr{:class => (user == @week.winner ? 'winner' : false)}
@@ -44,15 +46,25 @@
               %td= @week.money_owed?(user) == 0 ? "winner!" : number_to_currency(@week.money_owed?(user) / @week.exchange_rate, :unit => @week.currency.symbol)
               -# %td= number_to_currency(@week.pot_earnings?(user), :unit => @week.currency.symbol)
               %td{:class => (@week.money_adjusted?(user) < 0 ? 'red' : false)}= number_to_currency(@week.money_adjusted?(user), :unit => @week.currency.symbol)
-              %td{:class => (@week.money_adjusted?(user) < 0 ? 'red' : false)}= number_to_currency(@week.money_adjusted?(user) * @week.exchange_rate, :unit => @week.season.basecurrency.symbol)
+              %td{:class => (@week.money_adjusted?(user) < 0 ? 'red' : false)}= number_to_currency(@week.final_score?(user), :unit => @week.season.basecurrency.symbol)
+              %td
+                - t = @week.luck?(user).to_f
+                = t
+                - total_luck = total_luck + t
       %tfoot
         %tr
           %td Total karma:
           %td= @week.total_score
+          - unless @week.open?
+            %td &nbsp;
+            %td{:colspan => 2 } Total luck:
+            %td= number_to_currency(total_luck, :unit => '')
         - if current_user.is_admin? && @week.open?
           %tr
             %td{:colspan => 2}
               = link_to 'enter scores', score_week_path(@week)
+
+
   .seven.columns.omega
     - unless @week.currency.blank?
       %h3 This week's currency was ....

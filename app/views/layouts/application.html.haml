@@ -17,10 +17,10 @@
           .user_info.four.columns.alpha
             - if user_signed_in?
               - if current_user.avatar?
-                .image= image_tag current_user.avatar.url(:thumb), :height => 60
+                .image.one.column.alpha= image_tag current_user.avatar.url(:thumb), :height => 60
               - else
-                .image= image_tag 'missing_person.png', :width => 50
-              .meta
+                .image.one.column.alpha= image_tag 'missing_person.png', :width => 50
+              .meta.three.columns.omega
                 %p
                   Signed in as
                   = current_user.name
@@ -31,7 +31,7 @@
                   %strong= number_to_currency current_user.current_score, :unit => @current_season.basecurrency.symbol
             - else
               = link_to "Sign in with Google account", user_omniauth_authorize_path(:google_oauth2)
-          .eight.columns
+          .twelve.columns.omega
             %nav
               %ul
                 - unless controller.controller_name == 'seasons'

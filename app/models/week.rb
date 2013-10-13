@@ -9,7 +9,7 @@ class Week < ActiveRecord::Base
     # pick random currency
     c = Currency.new
     loop do
-      c = Currency.random
+      c = Currency.uncached { Currency.random }
       break if Week.where(:currency => c).empty? && Money.default_currency.iso_code != c.iso4217
     end
     fx = OpenExchangeRates::Rates.new
@@ -17,10 +17,18 @@ class Week < ActiveRecord::Base
     self.currency = c
     self.closing_date = Date.today
     self.save!
+    week_users.each do |wu|
+      wu.final_score = wu.money_adjusted * self.exchange_rate
+      wu.save!
+    end    
   end
     
   def last_comment
     comments.sort_by{|x| x.created_at}.last
+  end
+  
+  def final_score?(user)
+    week_users.where(:user => user).empty? ? 0 : week_users.find_by(:user => user).final_score
   end
   
   def money_adjusted?(user)
@@ -30,7 +38,11 @@ class Week < ActiveRecord::Base
   def money_owed?(user)
     week_users.where(:user => user).empty? ? 0 : week_users.find_by(:user => user).money_owed
   end
-      
+  
+  def rank?(user)
+    week_users.where(:user => user).empty? ? 0 : week_users.find_by(:user => user).rank 
+  end
+  
   def naming_rights
     if week_number == 1
       # hardcoding that john gets to name week 1 since he won last year
@@ -44,6 +56,9 @@ class Week < ActiveRecord::Base
     closing_date.nil?
   end
  
+  def luck?(user)
+    week_users.where(:user => user).empty? ? 0 : "%3.2f" % week_users.find_by(:user => user).luck_index
+  end
   def points?(user)
     week_users.where(:user => user).empty? ? 0 : week_users.find_by(:user => user).points
   end

@@ -6,15 +6,19 @@
         = (rank + 1 ).to_s + "."
       .image.two.columns
         - if user.avatar?
-          = image_tag user.avatar.url(:thumb)
+          = link_to image_tag(user.avatar.url(:thumb)), user
         - else
-          = image_tag 'missing_person.png'
+          = link_to image_tag('missing_person.png'), user
       .meta.ten.columns
-        .name= user.name
+        .name= link_to user.name, user
         .yahoo_name= user.yahoo_name
         - if current_user.is_admin?
           = link_to '[edit]', edit_user_path(user)
         .score{:class => user.current_score < 0 ? 'red' : false}
           = number_to_currency user.current_score, :unit => @current_season.basecurrency.symbol
         .stats
+          .luck
+            Luck rating:
+            %span.number{:class => user.week_users.map(&:luck_index).sum < 0 ? 'red' : false}= "%2.2f" % user.week_users.map(&:luck_index).sum
+            .disclaimer (Luck is re-adjusted every week)
           = pluralize(Comment.where(:user_id => user.id).size, 'message') + " posted"

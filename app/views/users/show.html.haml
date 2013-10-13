@@ -1,0 +1,36 @@
+%h1= @user.name
+%h2= @user.yahoo_name
+
+.thirteen.columns.alpha
+  %table.weeks_table
+    %thead
+      %th Week
+      %th Pick'em points
+      %th Money owed
+      %th Final score
+      %th Luck
+    %tbody
+      - @current_season.weeks.sort_by(&:week_number)[1..17].each do |week|
+        %tr
+          %td= link_to_unless week.naming_rights.nil?, [week.week_number, week.name].compact.join(' - '), "/#{@current_season.year}/#{week.week_number}"
+          - if week.open?
+            %td{:colspan => 4}
+              %em No score yet
+          - else
+            %td
+              = week.score?(@user)
+              %span.small
+                = "(#{ActiveSupport::Inflector::ordinalize(week.rank?(@user))})"
+            %td= week.money_owed?(@user) == 0 ? "winner!" : number_to_currency(week.money_owed?(@user) / week.exchange_rate, :unit => week.currency.symbol)
+            %td{:class => (week.money_adjusted?(@user) < 0 ? 'red' : false)}= number_to_currency(week.final_score?(@user), :unit => week.season.basecurrency.symbol)
+            %td= week.luck?(@user).to_f
+    %tfoot
+      %tr
+        %td Totals:
+        %td
+          = @user.week_users.sum{|x| x.score.to_i }
+          %span.small
+            = " / #{WeekUser.all.sum(&:score)} (#{"%2.1f" % ((@user.week_users.sum{|x| x.score.to_i}.to_f / WeekUser.all.sum(&:score).to_f) * 100)}%)"
+        %td &nbsp;
+        %td= number_to_currency @user.current_score, :unit => @current_season.basecurrency.symbol
+        %td= "%2.2f" % @user.week_users.sum{|x| x.luck_index.to_f }

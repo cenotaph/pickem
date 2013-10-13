@@ -3,6 +3,25 @@ class WeekUser < ActiveRecord::Base
   belongs_to :user
   validates_uniqueness_of :user_id, scope: :week_id
   
+  before_save :set_to_zero
+  
+  def set_to_zero
+    if score.nil?
+      score = 0
+    end
+  end
+  
+  def luck_index
+    return 0 if score.nil? or week.exchange_rate.blank?
+    step = (20.to_f / (WeekUser.where("final_score is not null").count - 1).to_f )
+  
+    luck_index = -10 + (step * WeekUser.includes(:week).all.sort_by{|x| (-1 * (1 - x.week.exchange_rate)) * x.final_score}.index(self))
+    # if final_score >=0 
+    #   week.exchange_rate > 1 ? luck_index : (-1 * luck_index)
+    # else
+    #   week.exchange_rate > 1 ? (-1 * luck_index) : luck_index
+    # end
+  end
   
   def money_adjusted_converted
     money_adjusted * week.exchange_rate.to_f
@@ -18,13 +37,13 @@ class WeekUser < ActiveRecord::Base
   
   def pot_earnings
     return 0 if score.nil?
-    (score.to_f / WeekUser.where(:week => week).map(&:score).sum.to_f) * week.total_pot
+    (score.to_f / WeekUser.includes(:week).where(:week => week).map{|x| x.score.to_i }.sum.to_f) * week.total_pot
   end
   
   def points
     return 0 if score.nil?
     # find winner within own structure
-    all_week_scores = WeekUser.where(:week => week).sort_by(&:score)
+    all_week_scores = WeekUser.includes(:week).where(:week => week).sort_by{|x| x.score.to_i }
     winner = all_week_scores.last
     if winner == self
       # you won
@@ -37,7 +56,7 @@ class WeekUser < ActiveRecord::Base
   
   def distance_from_next
     # find winner within own structure
-    all_week_scores = WeekUser.where(:week => week).sort_by(&:score)
+    all_week_scores = WeekUser.where(:week => week).sort_by{|x| x.score.to_i }
     winner = all_week_scores.last
     if winner == self
       # you won
@@ -51,4 +70,9 @@ class WeekUser < ActiveRecord::Base
       end
     end
   end
+  
+  def rank
+    all_week_scores = WeekUser.where(:week => week).sort_by{|x| x.score.to_i }
+    all_week_scores.index(self) + 1
+  end  
 end
