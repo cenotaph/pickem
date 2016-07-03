@@ -1,6 +1,6 @@
-class UsersController < InheritedResources::Base
+class UsersController < ApplicationController
   before_filter :authenticate_user!
-  actions :edit, :update, :index, :show
+  #actions :edit, :update, :index, :show
   
   def edit
     @user = User.friendly.find(params[:id])
@@ -12,6 +12,9 @@ class UsersController < InheritedResources::Base
     end
   end
   
+  def index
+    @users = User.all
+  end
   
   def update
     @user = User.friendly.find(params[:id])

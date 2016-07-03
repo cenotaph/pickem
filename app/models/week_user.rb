@@ -12,10 +12,13 @@ class WeekUser < ActiveRecord::Base
   end
   
   def luck_index
-    return 0 if score.nil? or week.exchange_rate.blank?
-    step = (20.to_f / (WeekUser.where("final_score is not null").count - 1).to_f )
+    if score.nil? or week.exchange_rate.blank?
+      return 0 
+    else
+      step = (20.to_f / (WeekUser.where("final_score is not null").count - 1).to_f )
   
-    luck_index = -10 + (step * WeekUser.includes(:week).all.sort_by{|x| (-1 * (1 - x.week.exchange_rate)) * x.final_score}.index(self))
+      luck_index = -10 + (step * WeekUser.includes(:week).all.sort_by{|x| (-1 * (1 - x.week.exchange_rate.to_f)) * x.final_score.to_i}.index(self))
+    end
     # if final_score >=0 
     #   week.exchange_rate > 1 ? luck_index : (-1 * luck_index)
     # else

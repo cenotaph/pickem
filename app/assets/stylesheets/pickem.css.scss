@@ -122,6 +122,12 @@ span.small {
 form {
   li {
     list-style-type: none;
+    p.inline-errors {
+      color: red;
+      text-align: right;
+      width: 200px;
+      margin-bottom: 1.3rem;
+    }
     &.file {
       clear: left;
       border-top: 1px dotted $light-blue;

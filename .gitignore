@@ -17,3 +17,7 @@
 config/initializers/pickem.rb
 /test/*
 /public/uploads/tmp/*
+
+# Ignore application configuration
+/config/application.yml
+*.dump

@@ -1,4 +1,4 @@
-class PagesController < InheritedResources::Base
+class PagesController < ApplicationController
   
   before_filter :authenticate_user!
   before_filter :check_for_admin, :except => [:index, :show]
@@ -9,6 +9,14 @@ class PagesController < InheritedResources::Base
   
   def create
     create! { pages_path }
+  end
+  
+  def index
+    @pages = Page.all
+  end
+  
+  def show
+    @page = Page.friendly.find(params[:id])
   end
   
   def update

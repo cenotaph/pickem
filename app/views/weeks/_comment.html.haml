@@ -1,5 +1,5 @@
 .two.columns.alpha
-  = image_tag c.user.avatar.url(:thumb)
+  = image_tag c.user.avatar.url(:thumb) if c.user.avatar?
   .posted_by
     posted by
     = c.user.name

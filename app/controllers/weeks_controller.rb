@@ -1,4 +1,4 @@
-class WeeksController < InheritedResources::Base
+class WeeksController < ApplicationController
   before_filter :authenticate_user!
   
   

@@ -4,48 +4,51 @@
     %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}
       %title= content_for?(:title) ? yield(:title) : "Pick'em of Death"
       %meta{:content => content_for?(:description) ? yield(:description) : "Pick'em Of Death", :name => "description"}
-        = stylesheet_link_tag "application", :media => "all"
+        = stylesheet_link_tag :application, media: :all
         = javascript_include_tag "application"
         %link{:href => "http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,500italic&subset=latin,latin-ext", :rel => "stylesheet", :type => "text/css"}/
 
         = csrf_meta_tags
         = yield(:head)
   %body{:class => "#{controller_name} #{action_name}"}
-    %header
-      .container
-        .sixteen.columns
-          .user_info.four.columns.alpha
-            - if user_signed_in?
-              - if current_user.avatar?
-                .image.one.column.alpha= image_tag current_user.avatar.url(:thumb), :height => 60
-              - else
-                .image.one.column.alpha= image_tag 'missing_person.png', :width => 50
-              .meta.three.columns.omega
-                %p
-                  Signed in as
-                  = current_user.name
-                %p
-                  = link_to 'edit profile', edit_user_path(current_user)
-                .current_score
-                  Current score: 
-                  %strong= number_to_currency current_user.current_score, :unit => @current_season.basecurrency.symbol
-            - else
-              = link_to "Sign in with Google account", user_omniauth_authorize_path(:google_oauth2)
-          .twelve.columns.omega
-            %nav
-              %ul
-                - unless controller.controller_name == 'seasons'
-                  %li= link_to 'Frontpage', '/'
-                %li= link_to 'Currencies', currencies_path
-                - if user_signed_in?
-                  %li= link_to 'Scoreboard', users_path
-                  - if current_user.is_admin?
-                    %li= link_to 'Static pages', pages_path
-                  %li= link_to 'Yahoo Pick\'em', 'http://football.fantasysports.yahoo.com/pickem/45368'
-      .yield
-        .container
-          .sixteen.columns= yield
-      %footer
+    .wrapper
+      %header
         .container
           .sixteen.columns
-            Pick em of Death. Go away.
+            .user_info.four.columns.alpha
+              - if user_signed_in?
+                - if current_user.avatar?
+                  .image.one.column.alpha= image_tag current_user.avatar.url(:thumb), :height => 60
+                - else
+                  .image.one.column.alpha= image_tag 'missing_person.png', :width => 50
+                .meta.three.columns.omega
+                  %p
+                    Signed in as
+                    = current_user.name
+                  %p
+                    = link_to 'edit profile', edit_user_path(current_user)
+                  %p= link_to 'sign out', destroy_user_session_path, :method => :delete
+                  .current_score
+                    Current score: 
+                    %strong= number_to_currency current_user.current_score, :unit => @current_season.basecurrency.symbol
+              - else
+                = link_to "Sign in with Google account", user_google_oauth2_omniauth_authorize_path
+            .twelve.columns.omega
+              %nav
+                %ul
+                  - unless controller.controller_name == 'seasons'
+                    %li= link_to 'Frontpage', '/'
+                  %li= link_to 'Currencies', currencies_path
+                  - if user_signed_in?
+                    %li= link_to 'Scoreboard', users_path
+                    - if current_user.is_admin?
+                      %li= link_to 'Static pages', pages_path
+                    %li= link_to 'Yahoo Pick\'em', 'http://football.fantasysports.yahoo.com/pickem/45368'
+        .yield
+          .container
+            .sixteen.columns= yield
+        .push &nbsp;
+    %footer
+      .container
+        .sixteen.columns
+          Pick em of Death. Go away.

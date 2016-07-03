@@ -1,8 +1,23 @@
-class CurrenciesController < InheritedResources::Base
+class CurrenciesController < ApplicationController
   before_filter :authenticate_user! , :except => [:index]
   
+  def index
+    @currencies = Currency.all
+  end
+  
+  def new
+    @currency = Currency.new
+  end
+  
   def create
-    create! { currencies_path }
+    @currency = Currency.new(currency_params)
+    if @currency.save
+      flash[:notice] = 'Currency saved'
+      redirect_to currencies_path
+    else
+      flash[:error] = 'Error saving currency'
+      render 'new'
+    end
   end
   
   def update
@@ -13,9 +28,10 @@ class CurrenciesController < InheritedResources::Base
     destroy! { currencies_path } 
   end
   
-
-  def permitted_params
-    params.permit(:currency => [:name, :country, :iso4217, :wikipedia_link, :symbol])
+  private
+  
+  def currency_params
+    params.require(:currency).permit(:name, :country, :iso4217, :wikipedia_link, :symbol)
   end
    
 end

@@ -25,4 +25,5 @@ class ApplicationController < ActionController::Base
     @current_season = Season.last
   end
   
+
 end
