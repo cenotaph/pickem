@@ -34,6 +34,9 @@ if Rails.env.production?
   OER_API_KEY = ENV['OPEN_EXCHANGE_KEY']
   
   Rails.application.config.middleware.use OmniAuth::Builder do
-    provider :google_oauth2, ENV['GOOGLE_KEY'], ENV['GOOGLE_SECRET'], {:client_options => {:ssl => {:ca_file => '/usr/lib/ssl/certs/ca-certificates.crt'}}}
+    provider :google_oauth2, ENV['google_app_id'], ENV['google_secret'] , {
+      scope: "email", # access_type: 'offline', approval_prompt: '', 
+      client_options: {:ssl => {:ca_file => '/usr/lib/ssl/certs/ca-certificates.crt'}} 
+    }
   end
 end
