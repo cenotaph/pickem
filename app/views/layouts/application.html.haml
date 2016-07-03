@@ -45,6 +45,13 @@
                       %li= link_to 'Static pages', pages_path
                     %li= link_to 'Yahoo Pick\'em', 'http://football.fantasysports.yahoo.com/pickem/45368'
         .yield
+          - unless flash[:notice].blank? && flash[:error].blank?
+            .flash
+              - unless flash[:notice].blank? 
+                .notice= flash[:notice] 
+              - unless flash[:error].blank?
+                .error= flash[:error] 
+              
           .container
             .sixteen.columns= yield
         .push &nbsp;

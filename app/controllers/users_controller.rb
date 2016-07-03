@@ -25,7 +25,14 @@ class UsersController < ApplicationController
   def show
     @user = User.friendly.find(params[:id])
   end
+  
+  def omniauth_failure
+    
+     redirect_to '/'
+     #redirect wherever you want.
+   end
 
+  private
   
   def permitted_params
     params.permit(:user => [:avatar, :slug, :yahoo_name])

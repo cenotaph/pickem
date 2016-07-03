@@ -24,7 +24,6 @@ end
 
 
 
-
 # Omniauth keys here
 if Rails.env.production?
   APPROVED_USERS = ENV['APPROVED_USERS'].split(/\,\s*/).to_a
