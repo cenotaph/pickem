@@ -1,6 +1,6 @@
 class SeasonsController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :check_for_admin
+  before_filter :authenticate_user!, except: [:index]
+  before_filter :check_for_admin, except: [:index]
   
   def index
     @seasons = Season.all
