@@ -1,0 +1,5 @@
+= semantic_form_for (@season) do |f|
+  = f.input :year
+  = f.input :name
+  = f.input :basecurrency, as: :select, collection: Currency.all
+  = f.submit 'Save'

@@ -48,7 +48,7 @@ class Week < ActiveRecord::Base
       # hardcoding that john gets to name week 1 since he won last year
       User.find(1)
     else
-      Week.find_by(:week_number => week_number - 1 ).winner
+      Week.find_by(season: season, :week_number => week_number - 1 ).winner
     end
   end
   

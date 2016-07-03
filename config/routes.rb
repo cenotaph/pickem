@@ -11,6 +11,11 @@ Pickem::Application.routes.draw do
   # See how all your routes lay out with "rake routes".
   resources :currencies
   resources :users
+  resources :seasons do
+    member do
+      get :join
+    end
+  end
   resources :weeks do
     resources :comments
     member do
@@ -24,7 +29,7 @@ Pickem::Application.routes.draw do
     end
   end
   
-  root 'seasons#index'
+  root 'seasons#latest'
   get '/:year/:week/' => 'weeks#show'
   post '/:year/:week/' => 'comments#update'
   

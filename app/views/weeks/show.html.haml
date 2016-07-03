@@ -19,7 +19,7 @@
 
 - unless @week.week_number == 0 
   - if @week.open?
-    - players = User.all
+    - players = @current_season.users
   - else
     - players = @week.week_users.sort_by(&:score).reverse.map(&:user)
     - total_luck = 0

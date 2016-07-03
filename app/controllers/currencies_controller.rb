@@ -20,12 +20,25 @@ class CurrenciesController < ApplicationController
     end
   end
   
+  def edit
+    @currency = Currency.find(params[:id])
+  end
+  
   def update
-    update! { currencies_path }
+    @currency = Currency.find(params[:id])
+    if @currency.update_attributes(currency_params)
+      flash[:notice] = 'Currency saved'
+      redirect_to currencies_path
+    else
+      flash[:error] = 'Error saving currency'
+      render 'new'
+    end
   end
   
   def destroy
-    destroy! { currencies_path } 
+    @currency = Currency.find(params[:id])
+    @currency.destroy
+    redirect_to currencies_path
   end
   
   private

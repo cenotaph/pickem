@@ -1,0 +1,10 @@
+%h2 Join season?
+
+%p 
+  You have not yet agreed to play Pick 'em of Death for the
+  = @current_season.year
+  season. 
+
+%p Would you like to play?
+
+%p= link_to 'Yes, I want to play', join_season_path(@current_season)

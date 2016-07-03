@@ -43,7 +43,8 @@
                     %li= link_to 'Scoreboard', users_path
                     - if current_user.is_admin?
                       %li= link_to 'Static pages', pages_path
-                    %li= link_to 'Yahoo Pick\'em', 'http://football.fantasysports.yahoo.com/pickem/45368'
+                    %li= link_to 'Seasons', seasons_path  
+
         .yield
           - unless flash[:notice].blank? && flash[:error].blank?
             .flash
