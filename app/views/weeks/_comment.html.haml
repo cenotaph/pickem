@@ -1,8 +1,10 @@
 .two.columns.alpha
   = image_tag c.user.avatar.url(:thumb) if c.user.avatar?
+
+
   .posted_by
     posted by
-    = c.user.name
+    = link_to c.user.name, c.user
   .post_date
     = c.updated_at.strftime('%d %B %Y')
     = time_ago_in_words(c.updated_at)
