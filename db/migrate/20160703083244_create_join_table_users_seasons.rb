@@ -6,7 +6,7 @@ class CreateJoinTableUsersSeasons < ActiveRecord::Migration[5.0]
       t.float :final_luck
     end
     add_index :seasons_users, [:user_id, :season_id]
-    
+    add_column :seasons, :slug, :string
    
   end
   
